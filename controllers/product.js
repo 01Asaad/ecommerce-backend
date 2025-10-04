@@ -3,9 +3,9 @@ import asyncHandler from 'express-async-handler';
 import User from "../models/user.js";
 
 const addProduct = asyncHandler(async function addProduct(req, res, next) {
-    if (!req.file) {
-        return res.status(422).json({ message: "Invalid image type" })
-    }
+    // if (!req.file) {
+    //     return res.status(422).json({ message: "Invalid image type" })
+    // }
     const similarProduct = await Product.findOne({ name: req.body.name, provider: req.userID })
     if (similarProduct) {
         return res.status(422).json({ message: `you already have a product with the same name, edit that product or simply choose a different name`, productID: similarProduct._id })
@@ -16,9 +16,9 @@ const addProduct = asyncHandler(async function addProduct(req, res, next) {
     }
 })
 const editProduct = asyncHandler(async function editProduct(req, res, next) {
-    if (!req.file) {
-        res.status(422).json({ message: "Invalid image type" })
-    }
+    // if (!req.file) {
+    //     res.status(422).json({ message: "Invalid image type" })
+    // }
     const productID = req.params.productID
     const product = await Product.findById(productID)
     if (!product) {

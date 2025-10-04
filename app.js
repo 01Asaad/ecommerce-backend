@@ -7,6 +7,7 @@ import productRoutes from "./routes/productRoutes.js"
 import orderRoutes from "./routes/orderRoutes.js"
 import cors from "cors"
 import path from "path"
+import {sleep} from "./util/utils.js"
 import { errorHandler, notFound } from './middleware/error.js';
 import { singleImageMiddleware } from './middleware/contentTypeManagers.js';
 config()
@@ -29,7 +30,13 @@ app.use("/images", express.static(path.join(__dirname, "images")))
 
 app.use(notFound)
 app.use(errorHandler)
-await connect()
+let stat
+while (true) {
+    stat = await connect()
+    if (stat) {break}
+    sleep(2000)
+}
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
