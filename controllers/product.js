@@ -9,11 +9,11 @@ const addProduct = asyncHandler(async function addProduct(req, res, next) {
     const similarProduct = await Product.findOne({ name: req.body.name, provider: req.userID })
     if (similarProduct) {
         return res.status(422).json({ message: `you already have a product with the same name, edit that product or simply choose a different name`, productID: similarProduct._id })
-    } else {
-        const product = new Product({ name: req.body.name, provider: req.userID, price: req.body.price, stock: req.body.stock, enabled: req.body.enabled, image: req.file ? req.file.path : null })
-        const result = await product.save()
-        return res.status(201).json({ message: `product created`, productID: result._id })
     }
+
+    const product = new Product({ name: req.body.name, provider: req.userID, price: req.body.price, stock: req.body.stock, enabled: req.body.enabled, image: req.file ? req.file.path : null })
+    const result = await product.save()
+    return res.status(201).json({ message: `product created`, productID: result._id })
 })
 const editProduct = asyncHandler(async function editProduct(req, res, next) {
     // if (!req.file) {
@@ -26,6 +26,10 @@ const editProduct = asyncHandler(async function editProduct(req, res, next) {
     }
     if (product.provider.toString() !== req.userID && !req.user.admin) {
         return res.status(403).json({ message: "You don't have permission to modify this product" })
+    }
+    const similarProduct = await Product.findOne({ name: req.body.name, provider: req.userID })
+    if (similarProduct && similarProduct._id !== product._id) {
+        return res.status(422).json({ message: `you already have a different product with the same name, edit that product or simply choose a different name`, productID: similarProduct._id })
     }
 
     for (let key of Object.keys(req.body).filter(key => !["provider", "image"].includes(key))) {
