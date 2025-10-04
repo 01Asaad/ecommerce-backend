@@ -1,7 +1,7 @@
 import multer from "multer"
 
 const fileStorage = multer.diskStorage({
-    destination : (req, file, cb) => {return cb(null, "image")},
+    destination : (req, file, cb) => {return cb(null, "images")},
     filename : (req, file, cb) => cb(null, Date.now().toString() + "-" + file.originalname)
 })
 const fileFilter = (req, file, cb) => {

@@ -14,6 +14,7 @@ const app = express();
 app.use(cors({
     origin: process.env.ALLOWED_ORIGINS.split(',') || 'http://localhost:3000'
 }));
+
 app.use(express.json())
 app.use(singleImageMiddleware)
 const PORT = process.env.PORT || 3001;

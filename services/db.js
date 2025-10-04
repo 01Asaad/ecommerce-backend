@@ -8,7 +8,9 @@ async function connect() {
     }
     catch(err) {
         console.error('MongoDB connection error:', err.stack)
+        return false
     }
+    return true
 }
 export {connect, db}
 

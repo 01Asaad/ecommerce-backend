@@ -16,22 +16,24 @@ export default  asyncHandler(async (req, res, next) => {
   try {
     decodedToken = verify(token, process.env.JWT_TOKEN);
   } catch (err) {
-    err.status = 400;
-    next(err)
+    err.status = 401;
+    err.originalMessage = err.message
+    err.message = "Could not authenticate."
+    return next(err)
   }
   const error = new Error('Not authenticated.');
   error.status = 401;
   if (!decodedToken) {
-    next(error)
+    return next(error)
   }
   else {
     const user = await User.findById(decodedToken.userID)
-    if (!user || decodedToken.createdAt < user.lastPasswordChangeDate) {
-      next(error)
+    if (!user || (decodedToken.createdAt < user.lastPasswordChangeDate)) {
+      return next(error)
     } else {
       req.userID = decodedToken.userID;
       req.user = user
-      next();
+      return next();
     }
   }
 })

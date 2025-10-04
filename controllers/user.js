@@ -39,12 +39,13 @@ const login = asyncHandler(async function login(req, res, next) {
         )
     }
 })
-const getUser = asyncHandler(async function (req, res, next) {
+const getUser = asyncHandler(async function (req, res, next) {        
     res.status(200).json({
         firstName: req.user.firstName,
         lastName: req.user.lastName,
         email: req.user.email,
-        username: req.user.username
+        username: req.user.username,
+        userID : req.user._id
     })
 })
 const changePassword = asyncHandler(async function changePassword(req, res, next) {

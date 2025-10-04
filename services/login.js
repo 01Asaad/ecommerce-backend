@@ -9,7 +9,6 @@ export default async function login({identifier, password, user}) {
         });
     }
     if (user) {
-        console.log("found user")
         if (await bcrypt.compare(password, user.password)) {
             console.log("login successful");
             const token = jwt.sign({

@@ -7,7 +7,6 @@ router.get("/get-product/:productID", getProduct)
 router.get("/get-products", getProducts)
 router.get("/search-products", searchProducts)
 router.post("/add-product", isAuth, addProduct)
-router.post("/add-product", isAuth, addProduct)
-router.post("/edit-product", isAuth, editProduct)
+router.post("/edit-product/:productID", isAuth, editProduct)
 router.post("/delete-product/:productID", isAuth, deleteProduct)
 export default router
