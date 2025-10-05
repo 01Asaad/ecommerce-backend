@@ -27,8 +27,8 @@ const editProduct = asyncHandler(async function editProduct(req, res, next) {
     if (product.provider.toString() !== req.userID && !req.user.admin) {
         return res.status(403).json({ message: "You don't have permission to modify this product" })
     }
-    const similarProduct = await Product.findOne({ name: req.body.name, provider: req.userID })
-    if (similarProduct && similarProduct._id !== product._id) {
+    const similarProduct = await Product.findOne({ name: req.body.name, provider: req.userID, _id: { $ne: product._id } })
+    if (similarProduct) {
         return res.status(422).json({ message: `you already have a different product with the same name, edit that product or simply choose a different name`, productID: similarProduct._id })
     }
 
@@ -43,8 +43,8 @@ const editProduct = asyncHandler(async function editProduct(req, res, next) {
     res.status(200).json({ message: "product updated successfully" })
 })
 const getProducts = asyncHandler(async function (req, res, next) {
-    const { sortBy = 'createdAt', order = 'asc', limit = 0 } = req.query;
-    
+    let { sortBy = 'createdAt', order = 'asc', limit = 0, keyword = "", exactMatch = "true" } = req.query;
+
     let sortCriteria = {};
     if (['price', 'createdAt'].includes(sortBy)) {
         sortCriteria[sortBy] = order === 'desc' ? -1 : 1;
@@ -52,10 +52,13 @@ const getProducts = asyncHandler(async function (req, res, next) {
         sortCriteria = { createdAt: 1 };
     }
     
-    const products = await Product.find({ enabled: true, stock: { $gt: 0 } })
+    const searchCondition = keyword ? {
+        name: exactMatch==="true" ? keyword : { $regex: keyword, $options: 'i' }
+    } : {};
+    const products = await Product.find({ enabled: true, stock: { $gt: 0 }, ...searchCondition })
         .sort(sortCriteria)
         .limit(limit && !isNaN(limit) && limit > 0 ? parseInt(limit) : 0);
-    
+
     res.status(200).json(products.map(product => product.toJSON()));
 });
 const getProduct = asyncHandler(async function (req, res, next) {
