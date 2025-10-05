@@ -15,7 +15,6 @@ const signup = asyncHandler(async function signup(req, res, next) {
         res.status(422)
         next(error)
     }
-    console.log(req.body);
     const hashedPW = await bcrypt.hash(req.body.password, 12)
 
     const user = new User({
