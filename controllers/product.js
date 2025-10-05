@@ -43,17 +43,21 @@ const editProduct = asyncHandler(async function editProduct(req, res, next) {
     res.status(200).json({ message: "product updated successfully" })
 })
 const getProducts = asyncHandler(async function (req, res, next) {
-    const { sortBy = 'createdAt', order = 'asc' } = req.query;
+    const { sortBy = 'createdAt', order = 'asc', limit = 0 } = req.query;
+    
     let sortCriteria = {};
     if (['price', 'createdAt'].includes(sortBy)) {
         sortCriteria[sortBy] = order === 'desc' ? -1 : 1;
     } else {
         sortCriteria = { createdAt: 1 };
     }
-    const products = await Product.find({ enabled: true, stock: { $gt: 0 } }).sort(sortCriteria);
+    
+    const products = await Product.find({ enabled: true, stock: { $gt: 0 } })
+        .sort(sortCriteria)
+        .limit(limit && !isNaN(limit) && limit > 0 ? parseInt(limit) : 0);
+    
     res.status(200).json(products.map(product => product.toJSON()));
 });
-
 const getProduct = asyncHandler(async function (req, res, next) {
     const product = await Product.findById(req.params.productID);
     if (!product) {
