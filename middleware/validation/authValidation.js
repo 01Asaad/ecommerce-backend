@@ -15,4 +15,3 @@ export async function signupValidation(req, res, next) {
     }
     next()
 }
-export async function loginValidation

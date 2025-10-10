@@ -5,7 +5,7 @@ const notFound = (req, res, next) => {
 };
 
 const errorHandler = (err, req, res, next) => {
-  const statusCode = err.status === 200 || !err.status ? 500 : err.status;
+  const statusCode = err.status ? err.status : 500;
   if (statusCode>499) {
     console.log(err.stack);
   }

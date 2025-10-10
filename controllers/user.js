@@ -6,14 +6,14 @@ const signup = asyncHandler(async function signup(req, res, next) {
     const unUsers = await User.find({ username: req.body.username })
     if (unUsers.length > 0) {
         const error = new Error("username already exists")
-        res.status(422)
-        next(error)
+        error.status = 422
+        return next(error)
     }
     const emailUsers = await User.find({ email: req.body.email })
     if (emailUsers.length > 0) {
         const error = new Error("email already exists")
-        res.status(422)
-        next(error)
+        error.status = 422
+        return next(error)
     }
     const hashedPW = await bcrypt.hash(req.body.password, 12)
 
@@ -29,8 +29,8 @@ const login = asyncHandler(async function login(req, res, next) {
     const result = await loginService({ identifier: req.body.identifier, password: req.body.password })
     if (result === 401) {
         let error = new Error(`wrong email or password`)
-        res.status(401)
-        next(error)
+        error.status = 401
+        return next(error)
     }
     else {
         res.status(200).json(
