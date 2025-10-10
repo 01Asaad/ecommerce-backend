@@ -13,7 +13,7 @@ const addProduct = asyncHandler(async function addProduct(req, res, next) {
 
     const product = new Product({ name: req.body.name, provider: req.userID, price: req.body.price, stock: req.body.stock, enabled: req.body.enabled, image: req.file ? req.file.path : null })
     const result = await product.save()
-    return res.status(201).json({ message: `product created`, productID: result._id })
+    return res.status(201).json({ message: `product created`, productID: result._id, productInfo : product })
 })
 const editProduct = asyncHandler(async function editProduct(req, res, next) {
     // if (!req.file) {
@@ -40,7 +40,7 @@ const editProduct = asyncHandler(async function editProduct(req, res, next) {
     }
     product.modifiedAt = Date.now().toString()
     await product.save()
-    res.status(200).json({ message: "product updated successfully" })
+    res.status(200).json({ message: "product updated successfully", productInfo : product })
 })
 const getProducts = asyncHandler(async function (req, res, next) {
     let { sortBy = 'createdAt', order = 'asc', limit = 0, keyword = "", exactMatch = "true" } = req.query;
