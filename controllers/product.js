@@ -3,9 +3,6 @@ import asyncHandler from 'express-async-handler';
 import User from "../models/user.js";
 
 const addProduct = asyncHandler(async function addProduct(req, res, next) {
-    // if (!req.file) {
-    //     return res.status(422).json({ message: "Invalid image type" })
-    // }
     const similarProduct = await Product.findOne({ name: req.body.name, provider: req.userID })
     if (similarProduct) {
         return res.status(422).json({ message: `you already have a product with the same name, edit that product or simply choose a different name`, productID: similarProduct._id })
@@ -13,23 +10,24 @@ const addProduct = asyncHandler(async function addProduct(req, res, next) {
 
     const product = new Product({ name: req.body.name, provider: req.userID, price: req.body.price, stock: req.body.stock, enabled: req.body.enabled, image: req.file ? req.file.path : null })
     const result = await product.save()
-    return res.status(201).json({ message: `product created`, productID: result._id, productInfo : product })
+    return res.status(201).json({ message: `product created`, productID: result._id, productInfo: product })
 })
 const editProduct = asyncHandler(async function editProduct(req, res, next) {
-    // if (!req.file) {
-    //     res.status(422).json({ message: "Invalid image type" })
-    // }
     const productID = req.params.productID
     const product = await Product.findById(productID)
     if (!product) {
-        return res.status(404).json({ message: "couldn't find that product" })
+        return res.status(404).json({ message: "product not found" })
     }
     if (product.provider.toString() !== req.userID && !req.user.admin) {
         return res.status(403).json({ message: "You don't have permission to modify this product" })
     }
-    const similarProduct = await Product.findOne({ name: req.body.name, provider: req.userID, _id: { $ne: product._id } })
+    const isProductProviderMe = product.provider._id.equals(req.userID)
+    const similarProduct = await Product.findOne({ name: req.body.name, provider: product.provider._id, _id: { $ne: product._id } })
     if (similarProduct) {
-        return res.status(422).json({ message: `you already have a different product with the same name, edit that product or simply choose a different name`, productID: similarProduct._id })
+        return res.status(422).json({
+            message: isProductProviderMe ? `you already have a different product with the same name, edit that product or simply choose a different name` : `supplier already has a different product with the same name, edit that product or simply choose a different name`,
+            productID: similarProduct._id
+        })
     }
 
     for (let key of Object.keys(req.body).filter(key => !["provider", "image"].includes(key))) {
@@ -40,7 +38,7 @@ const editProduct = asyncHandler(async function editProduct(req, res, next) {
     }
     product.modifiedAt = Date.now().toString()
     await product.save()
-    res.status(200).json({ message: "product updated successfully", productInfo : product })
+    res.status(200).json({ message: "product updated successfully", productInfo: product })
 })
 const getProducts = asyncHandler(async function (req, res, next) {
     let { sortBy = 'createdAt', order = 'asc', limit = 0, keyword = "", exactMatch = "true" } = req.query;
@@ -51,9 +49,9 @@ const getProducts = asyncHandler(async function (req, res, next) {
     } else {
         sortCriteria = { createdAt: 1 };
     }
-    
+
     const searchCondition = keyword ? {
-        name: exactMatch==="true" ? keyword : { $regex: keyword, $options: 'i' }
+        name: exactMatch === "true" ? keyword : { $regex: keyword, $options: 'i' }
     } : {};
     const products = await Product.find({ enabled: true, stock: { $gt: 0 }, ...searchCondition })
         .sort(sortCriteria)
@@ -130,7 +128,7 @@ const getUserProducts = asyncHandler(async function (req, res, next) {
     } else {
         sortCriteria = { createdAt: 1 };
     }
-    const products = await Product.find({ enabled: true, stock: { $gt: 0 }, provider: userID }).sort(sortCriteria);
+    const products = await Product.find({ enabled: true, provider: userID }).sort(sortCriteria);
     res.status(200).json(products.map(product => product.toJSON()));
 })
 const deleteProduct = asyncHandler(async function deleteProduct(req, res, next) {

@@ -43,6 +43,7 @@ const getUser = asyncHandler(async function (req, res, next) {
         firstName: req.user.firstName,
         lastName: req.user.lastName,
         email: req.user.email,
+        admin : req.user.admin,
         username: req.user.username,
         userID : req.user._id
     })
