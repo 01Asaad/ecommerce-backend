@@ -41,8 +41,8 @@ const editProduct = asyncHandler(async function editProduct(req, res, next) {
     res.status(200).json({ message: "product updated successfully", productInfo: product })
 })
 const getProducts = asyncHandler(async function (req, res, next) {
-    let { sortBy = 'createdAt', order = 'asc', limit = 0, keyword = "", exactMatch = "true" } = req.query;
-
+    let { sortBy = 'createdAt', order = 'asc', limit = 20, keyword = "", exactMatch = "true", page = 0 } = req.query;
+    page = parseInt(page)
     let sortCriteria = {};
     if (['price', 'createdAt'].includes(sortBy)) {
         sortCriteria[sortBy] = order === 'desc' ? -1 : 1;
@@ -53,14 +53,43 @@ const getProducts = asyncHandler(async function (req, res, next) {
     const searchCondition = keyword ? {
         name: exactMatch === "true" ? keyword : { $regex: keyword, $options: 'i' }
     } : {};
+    const offset = page * limit
+
+    const totalProducts = await Product.countDocuments({
+        enabled: true,
+        stock: { $gt: 0 },
+        ...searchCondition
+    });
+
     const products = await Product.find({ enabled: true, stock: { $gt: 0 }, ...searchCondition })
         .sort(sortCriteria)
+        .skip(offset)
         .limit(limit && !isNaN(limit) && limit > 0 ? parseInt(limit) : 0);
 
-    res.status(200).json(products.map(product => product.toJSON()));
+    res.status(200).json({
+        products : products.map(product => product.toJSON()),
+        pagination : {
+            currentPage : page,
+            totalItems : totalProducts,
+            totalPages : Math.ceil(totalProducts/limit)
+        }
+    });
 });
 const getProduct = asyncHandler(async function (req, res, next) {
-    const product = await Product.findById(req.params.productID);
+    let product
+    try {
+        product = await Product.findById(req.params.productID);
+    } catch (error) {
+        if (error.name === 'CastError') {
+            return res.status(400).json({
+                message: 'Invalid product ID format',
+                receivedId: req.params.productID
+            });
+        } else {
+            error.status = 500
+            return next(error)
+        }
+    }
     if (!product) {
         return res.status(404).json({ message: "product not found" })
     }
