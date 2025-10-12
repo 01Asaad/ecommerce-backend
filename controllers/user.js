@@ -21,8 +21,8 @@ const signup = asyncHandler(async function signup(req, res, next) {
         firstName: req.body.firstName, lastName: req.body.lastName, username: req.body.username, email: req.body.email, password: hashedPW
     })
     const result = await user.save()
-    const loginResult = await loginService({ username: req.body.username, email: req.body.email, password: req.body.password , user : result})
-    res.status(201).json({ message: "user created", userID: result._id, userInfo: loginResult})
+    const loginResult = await loginService({ username: req.body.username, email: req.body.email, password: req.body.password, user: result })
+    res.status(201).json({ message: "user created", userID: result._id, userInfo: loginResult })
 })
 
 const login = asyncHandler(async function login(req, res, next) {
@@ -32,20 +32,18 @@ const login = asyncHandler(async function login(req, res, next) {
         error.status = 401
         return next(error)
     }
-    else {
-        res.status(200).json(
-            result
-        )
-    }
+    res.status(200).json(
+        result
+    )
 })
-const getUser = asyncHandler(async function (req, res, next) {        
+const getUser = asyncHandler(async function (req, res, next) {
     res.status(200).json({
         firstName: req.user.firstName,
         lastName: req.user.lastName,
         email: req.user.email,
-        admin : req.user.admin,
+        admin: req.user.admin,
         username: req.user.username,
-        userID : req.user._id
+        userID: req.user._id
     })
 })
 const changePassword = asyncHandler(async function changePassword(req, res, next) {

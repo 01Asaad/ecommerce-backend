@@ -15,7 +15,7 @@ export default async function login({identifier, password, user}) {
                 userID : user._id.toString(),
                 createdAt : Date.now()
             }, process.env.JWT_TOKEN, { expiresIn : "24h"})
-            return {token , userID : user._id, firstName : user.firstName, lastName : user.lastName, email : user.email, username : user.username}
+            return {token , userID : user._id, firstName : user.firstName, lastName : user.lastName, email : user.email, username : user.usernamem, admin : user.admin}
         }
         else {
             console.log("bcrypt comparison failed");
