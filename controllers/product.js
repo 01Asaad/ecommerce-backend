@@ -43,6 +43,7 @@ const editProduct = asyncHandler(async function editProduct(req, res, next) {
 const getProducts = asyncHandler(async function (req, res, next) {
     let { sortBy = 'createdAt', order = 'asc', limit = 20, keyword = "", exactMatch = "true", page = 0 } = req.query;
     page = parseInt(page)
+    limit = Math.min(50, parseInt(limit))
     let sortCriteria = {};
     if (['price', 'createdAt'].includes(sortBy)) {
         sortCriteria[sortBy] = order === 'desc' ? -1 : 1;
@@ -67,11 +68,11 @@ const getProducts = asyncHandler(async function (req, res, next) {
         .limit(limit && !isNaN(limit) && limit > 0 ? parseInt(limit) : 0);
 
     res.status(200).json({
-        products : products.map(product => product.toJSON()),
-        pagination : {
-            currentPage : page,
-            totalItems : totalProducts,
-            totalPages : Math.ceil(totalProducts/limit)
+        products: products.map(product => product.toJSON()),
+        pagination: {
+            currentPage: page,
+            totalItems: totalProducts,
+            totalPages: Math.ceil(totalProducts / limit)
         }
     });
 });

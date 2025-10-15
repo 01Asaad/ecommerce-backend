@@ -5,6 +5,7 @@ import generalRoutes from "./routes/generalRoutes.js"
 import authRoutes from "./routes/authRoutes.js"
 import productRoutes from "./routes/productRoutes.js"
 import orderRoutes from "./routes/orderRoutes.js"
+import testRoutes from "./routes/testRoutes.js"
 import cors from "cors"
 import path from "path"
 import {sleep} from "./util/utils.js"
@@ -24,7 +25,11 @@ const __dirname = path.resolve()
 app.use("/api/", generalRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/products", productRoutes)
-app.use("/api/orders", orderRoutes)
+if (process.env.ENV === "development") {
+    console.log("running with test routes enabled");
+    app.use("/api/test", testRoutes)
+}
+// app.use("/api/orders", orderRoutes)
 
 app.use("/images", express.static(path.join(__dirname, "images")))
 
