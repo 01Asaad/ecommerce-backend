@@ -1,0 +1,181 @@
+{
+	"products": [
+		{
+			"_id": "68ef6f518ea58c3148e6d22d",
+			"name": "FHD Screen",
+			"provider": "68ef6e7f8ea58c3148e6d1d9",
+			"price": 50,
+			"stock": 100,
+			"enabled": true,
+			"image": null,
+			"createdAt": "2025-10-15T09:54:25.452Z",
+			"modifiedAt": "2025-10-15T09:54:25.452Z"
+		},
+		{
+			"_id": "68ef6f3b8ea58c3148e6d225",
+			"name": "Stereo Speakers",
+			"provider": "68ef6e7f8ea58c3148e6d1d9",
+			"price": 101,
+			"stock": 100,
+			"enabled": true,
+			"image": null,
+			"createdAt": "2025-10-15T09:54:03.346Z",
+			"modifiedAt": "2025-10-15T09:54:03.346Z"
+		},
+		{
+			"_id": "68ef6f238ea58c3148e6d21d",
+			"name": "Mechanical Keyboard",
+			"provider": "68ef6e7f8ea58c3148e6d1d9",
+			"price": 99,
+			"stock": 1,
+			"enabled": true,
+			"image": null,
+			"createdAt": "2025-10-15T09:53:39.232Z",
+			"modifiedAt": "2025-10-15T09:53:39.232Z"
+		},
+		{
+			"_id": "68ef6f038ea58c3148e6d215",
+			"name": "Laptop",
+			"provider": "68ef6e7f8ea58c3148e6d1d9",
+			"price": 9999,
+			"stock": 10,
+			"enabled": true,
+			"image": null,
+			"createdAt": "2025-10-15T09:53:07.152Z",
+			"modifiedAt": "2025-10-15T09:53:07.152Z"
+		},
+		{
+			"_id": "68ef6ef68ea58c3148e6d20d",
+			"name": "coffee pot",
+			"provider": "68ef6e7f8ea58c3148e6d1d9",
+			"price": 12,
+			"stock": 100,
+			"enabled": true,
+			"image": null,
+			"createdAt": "2025-10-15T09:52:54.814Z",
+			"modifiedAt": "2025-10-15T09:52:54.814Z"
+		},
+		{
+			"_id": "68ef6ee48ea58c3148e6d205",
+			"name": "mug",
+			"provider": "68ef6e7f8ea58c3148e6d1d9",
+			"price": 120,
+			"stock": 1230,
+			"enabled": true,
+			"image": null,
+			"createdAt": "2025-10-15T09:52:36.083Z",
+			"modifiedAt": "2025-10-15T09:52:36.083Z"
+		},
+		{
+			"_id": "68ef6ed98ea58c3148e6d1fd",
+			"name": "desk",
+			"provider": "68ef6e7f8ea58c3148e6d1d9",
+			"price": 123,
+			"stock": 123,
+			"enabled": true,
+			"image": null,
+			"createdAt": "2025-10-15T09:52:25.133Z",
+			"modifiedAt": "2025-10-15T09:52:25.133Z"
+		},
+		{
+			"_id": "68ef6ec88ea58c3148e6d1f5",
+			"name": "pencil",
+			"provider": "68ef6e7f8ea58c3148e6d1d9",
+			"price": 100,
+			"stock": 100,
+			"enabled": true,
+			"image": null,
+			"createdAt": "2025-10-15T09:52:08.431Z",
+			"modifiedAt": "2025-10-15T09:52:08.431Z"
+		},
+		{
+			"_id": "68ef6ebd8ea58c3148e6d1ed",
+			"name": "pen",
+			"provider": "68ef6e7f8ea58c3148e6d1d9",
+			"price": 5.5,
+			"stock": 12,
+			"enabled": true,
+			"image": null,
+			"createdAt": "2025-10-15T09:51:57.050Z",
+			"modifiedAt": "2025-10-15T09:51:57.050Z"
+		},
+		{
+			"_id": "68ef6e9a8ea58c3148e6d1e5",
+			"name": "chair",
+			"provider": "68ef6e7f8ea58c3148e6d1d9",
+			"price": 9,
+			"stock": 1000,
+			"enabled": true,
+			"image": null,
+			"createdAt": "2025-10-15T09:51:22.148Z",
+			"modifiedAt": "2025-10-15T09:51:22.148Z"
+		},
+		{
+			"_id": "68ef6e8f8ea58c3148e6d1df",
+			"name": "Table",
+			"provider": "68ef6e7f8ea58c3148e6d1d9",
+			"price": 99,
+			"stock": 900,
+			"enabled": true,
+			"image": null,
+			"createdAt": "2025-10-15T09:51:11.209Z",
+			"modifiedAt": "2025-10-15T09:51:11.209Z"
+		}
+	],
+	"users": [
+		{
+			"_id": "68ef59d88ea58c3148e6d1c3",
+			"firstName": "john",
+			"lastName": "doe",
+			"username": "johndoe",
+			"email": "johndoe@kmail.com",
+			"password": "$2a$12$JCaQt0Y9OP6huu1BnQj3TOoSgkRlo7YTcqq/HsORkoRygYVZvsnD2",
+			"admin": false,
+			"balance": 0,
+			"merchant": false,
+			"createdAt": "2025-10-15T08:22:48.844Z",
+			"notifications": []
+		},
+		{
+			"_id": "68ef6e7f8ea58c3148e6d1d9",
+			"firstName": "Joe",
+			"lastName": "Doe",
+			"username": "joedoe322",
+			"email": "joedoe2000@kmail.com",
+			"password": "$2a$12$yntFRujvoZRXVcVw9P4/kOmwPdzQEIHFPfC166npB30GMRqmijMHu",
+			"admin": false,
+			"balance": 0,
+			"merchant": false,
+			"createdAt": "2025-10-15T09:50:55.493Z",
+			"notifications": []
+		},
+		{
+			"_id": "68ef70118ea58c3148e6d239",
+			"firstName": "John",
+			"lastName": "Smith",
+			"username": "jojo",
+			"email": "johnsmith@kmail.com",
+			"password": "$2a$12$cDXkojou0KbbPdOyOfRcm.L8x.4X5WIMAAImcECNdnc0.XHHi2kji",
+			"admin": false,
+			"balance": 0,
+			"merchant": false,
+			"createdAt": "2025-10-15T09:57:37.555Z",
+			"notifications": []
+		},
+		{
+			"_id": "68ef70458ea58c3148e6d23f",
+			"firstName": "maxadmin",
+			"lastName": "edwards",
+			"username": "admin_max",
+			"email": "max@kmail.com",
+			"password": "$2a$12$pYmbryYrrh.GRtYWjmOKhuawYsKixt.mPreuDCXgQ.7Z6k7CfftLu",
+			"admin": true,
+			"balance": 0,
+			"merchant": false,
+			"createdAt": "2025-10-15T09:58:29.447Z",
+			"notifications": []
+		}
+	],
+	"carts": [],
+	"orders": []
+}

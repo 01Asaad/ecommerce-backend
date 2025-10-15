@@ -1,6 +1,5 @@
 .env
 node_modules/
-data/
 to-do.txt
 images/*
 !images/.gitkeep
