@@ -7,6 +7,7 @@ import User from '../models/user.js';
 import Product from '../models/product.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { deleteAllImagesExceptGitkeep } from '../util/utils.js';
 
 const clearDB = asyncHandler(async function clearDB(req, res, next) {
 	const collections = mongoose.connection.collections;
@@ -22,10 +23,12 @@ const seedDB = asyncHandler(async function seedDB(req, res, next) {
 	const seedData = JSON.parse(
 		fs.readFileSync(`./data/seedData.json`, "utf-8")
 	);
+	// all users have password set to "123456"; admin users have password set to 1234567
 	await User.create(seedData.users);
 	await Product.create(seedData.products);
 	await Cart.create(seedData.carts);
 	await Order.create(seedData.orders);
+	deleteAllImagesExceptGitkeep()
 	console.log("Data seed completed");
 	return res.status(200).json({ message: "Data seed completed" })
 })

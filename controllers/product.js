@@ -1,6 +1,7 @@
 import Product from "../models/product.js";
 import asyncHandler from 'express-async-handler';
 import User from "../models/user.js";
+import fs from "fs";
 
 const addProduct = asyncHandler(async function addProduct(req, res, next) {
     const similarProduct = await Product.findOne({ name: req.body.name, provider: req.userID })
@@ -170,6 +171,11 @@ const deleteProduct = asyncHandler(async function deleteProduct(req, res, next) 
         res.status(403).json({ message: "You don't have permission to modify this product." })
     } else {
         await product.deleteOne()
+        if (product.image) {
+            fs.unlink("./" + product.image, err => {
+                if (err) {console.error(err)}
+            })
+        }
         res.status(200).json({ message: "product deleted successfully." })
     }
 })
