@@ -48,7 +48,6 @@ const getUser = asyncHandler(async function (req, res, next) {
 })
 const changePassword = asyncHandler(async function changePassword(req, res, next) {
     const user = req.user
-    console.log(req.body);
     const hashedPW = await bcrypt.hash(req.body.password, 12)
     user.password = hashedPW
     user.lastPasswordChangeDate = Date.now()

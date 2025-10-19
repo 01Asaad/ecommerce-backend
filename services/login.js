@@ -14,7 +14,7 @@ export default async function login({identifier, password, user}) {
             const token = jwt.sign({
                 userID : user._id.toString(),
                 createdAt : Date.now()
-            }, process.env.JWT_TOKEN, { expiresIn : "24h"})
+            }, process.env.JWT_TOKEN, { expiresIn : "24h", algorithm : "HS256"})
             return {token , userID : user._id, firstName : user.firstName, lastName : user.lastName, email : user.email, username : user.usernamem, admin : user.admin}
         }
         else {

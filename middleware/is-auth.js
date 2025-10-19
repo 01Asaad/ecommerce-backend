@@ -14,7 +14,7 @@ export default  asyncHandler(async (req, res, next) => {
   // const token = authHeader;
   let decodedToken;
   try {
-    decodedToken = verify(token, process.env.JWT_TOKEN);
+    decodedToken = verify(token, process.env.JWT_TOKEN, {algorithms : ["HS256"]});
   } catch (err) {
     err.status = 401;
     err.originalMessage = err.message
