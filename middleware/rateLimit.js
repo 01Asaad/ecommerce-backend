@@ -9,4 +9,14 @@ const limiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false
 })
+
+export const loginLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 10,
+  message: {
+    error: 'Too many requests, please try again later.'
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+})
 export default limiter
